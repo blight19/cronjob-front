@@ -1,32 +1,52 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+    <div id="app">
+        <div v-if="islogin">
+            <el-container>
+                <el-header>
+                    <div id="nav">
+                        <Menu></Menu>
+                    </div>
+                </el-header>
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+            </el-container>
+        </div>
+
+        <div v-else>
+            <login-view></login-view>
+        </div>
+
+
+    </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Menu from "@/components/Menu";
+import LoginView from "@/views/LoginView";
+export default {
+    name:"APP",
+    components:{
+        LoginView,
+        Menu
+    },
+    data() {
+        return {
+            "islogin":false
+        }
+    },
+    methods:{
 
-nav {
-  padding: 30px;
-}
+    },
+    mounted: function () {
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+        if(window.sessionStorage.getItem("token")){
+            this.islogin=true
+        }else {
+            this.islogin=false
+        }
+    }
 
-nav a.router-link-exact-active {
-  color: #42b983;
 }
-</style>
+</script>
+
